@@ -1,333 +1,323 @@
 import { useState, useContext, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import { BsCart2 } from "react-icons/bs";
-import { FiUser, FiShoppingBag, FiHeart, FiSettings, FiLogOut, FiChevronDown } from "react-icons/fi";
+import { BsCart2, BsSearch, BsHeart } from "react-icons/bs";
+import { FiUser, FiShoppingBag, FiSettings, FiLogOut, FiChevronDown, FiMapPin, FiMenu, FiX } from "react-icons/fi";
 import { AppContext } from "../context/AppContext";
-import { toast } from "react-hot-toast";
-
-// Unique underline animation for nav links
-const Underline = () => (
-  <span className="block h-[3px] w-0 group-hover:w-full transition-all duration-300 bg-gradient-to-r from-amber-400 via-yellow-400 to-emerald-400 rounded-full mt-1"></span>
-);
-
-// Improved, more colorful and attractive open book SVG logo
-const Logo = () => (
-  <span className="flex items-center gap-2 select-none">
-    {/* Open Book Icon */}
-    <svg width="38" height="38" viewBox="0 0 48 48" fill="none">
-      <g>
-        <path
-          d="M24 10C27.5 7 38 7 44 12V38C38 33 27.5 33 24 36C20.5 33 10 33 4 38V12C10 7 20.5 7 24 10Z"
-          fill="url(#bookGradient)"
-          stroke="#fbbf24"
-          strokeWidth="2"
-        />
-        <path
-          d="M24 10V36"
-          stroke="#34d399"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M24 10C20.5 7 10 7 4 12"
-          stroke="#fbbf24"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M24 10C27.5 7 38 7 44 12"
-          stroke="#fbbf24"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M24 36C27.5 33 38 33 44 38"
-          stroke="#fbbf24"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <path
-          d="M24 36C20.5 33 10 33 4 38"
-          stroke="#fbbf24"
-          strokeWidth="2"
-          strokeLinecap="round"
-        />
-        <defs>
-          <linearGradient id="bookGradient" x1="4" y1="7" x2="44" y2="38" gradientUnits="userSpaceOnUse">
-            <stop stopColor="#ffe066" />
-            <stop offset="0.5" stopColor="#fbbf24" />
-            <stop offset="1" stopColor="#34d399" />
-          </linearGradient>
-        </defs>
-      </g>
-    </svg>
-    <span className="font-extrabold text-2xl md:text-3xl tracking-tight bg-gradient-to-r from-amber-600 via-yellow-500 to-emerald-600 bg-clip-text text-transparent font-serif italic drop-shadow-lg relative">
-      Jairozon
-      <span className="absolute left-0 -bottom-1 w-full h-1 bg-gradient-to-r from-amber-400 via-yellow-400 to-emerald-400 rounded-full animate-pulse opacity-70"></span>
-    </span>
-  </span>
-);
+import Logo from "./Logo";
 
 const Navbar = () => {
-  const { navigate, user, setUser, cartCount, logout } = useContext(AppContext);
+  const { navigate, user, cartCount, logout, booksData, setSearchQuery, setSelectedCategory } = useContext(AppContext);
   const [open, setOpen] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
+  const [searchDropdown, setSearchDropdown] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
   const dropdownRef = useRef(null);
+  const searchRef = useRef(null);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setUserDropdown(false);
+      }
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setSearchDropdown(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  const handleSearch = (value) => {
+    setSearchTerm(value);
+    if (value.length > 0) {
+      const results = booksData.filter(book => 
+        book.title.toLowerCase().includes(value.toLowerCase()) ||
+        book.author.toLowerCase().includes(value.toLowerCase()) ||
+        book.category.toLowerCase().includes(value.toLowerCase())
+      ).slice(0, 5);
+      setSearchResults(results);
+      setSearchDropdown(true);
+    } else {
+      setSearchDropdown(false);
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchTerm.trim()) {
+      setSearchQuery(searchTerm);
+      navigate('/books');
+      setSearchDropdown(false);
+      setSearchTerm("");
+    }
+  };
+
+  const categories = [
+    { name: "Mathematics", icon: "📐" },
+    { name: "Science", icon: "🔬" },
+    { name: "History", icon: "📚" },
+    { name: "English", icon: "📖" },
+    { name: "Programming", icon: "💻" },
+    { name: "Business", icon: "💼" }
+  ];
 
   return (
-    <nav
-      className="w-full border-b border-yellow-200 shadow-sm fixed top-0 left-0 z-50"
-      style={{
-        background:
-          "linear-gradient(90deg, #fffbe6 0%, #fbbf24 60%, #b7e4c7 100%)",
-        backgroundImage:
-          "linear-gradient(90deg, #fffbe6 0%, #fbbf24 60%, #b7e4c7 100%), url('https://www.transparenttextures.com/patterns/wood-pattern.png')",
-        backgroundBlendMode: "overlay",
-      }}
-    >
-      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 md:px-10 py-3 transition-all">
-        {/* Logo & Brand */}
-        <Link to="/" className="group flex items-center gap-2">
-          <Logo />
-        </Link>
-
-        {/* Desktop Menu */}
-        <div className="hidden sm:flex items-center gap-8 font-semibold font-serif text-lg text-emerald-900 drop-shadow">
-          <Link
-            to="/"
-            className="group relative hover:text-amber-700 transition-colors px-2 py-1 rounded-lg hover:bg-amber-100/60 tracking-wide"
-            style={{ fontFamily: "'Outfit', 'Merriweather', serif" }}
-          >
-            Home
-            <Underline />
-          </Link>
-          <Link
-            to="/books"
-            className="group relative hover:text-amber-700 transition-colors px-2 py-1 rounded-lg hover:bg-amber-100/60 tracking-wide"
-            style={{ fontFamily: "'Outfit', 'Merriweather', serif" }}
-          >
-            Books
-            <Underline />
-          </Link>
-          <Link
-            to="/about"
-            className="group relative hover:text-amber-700 transition-colors px-2 py-1 rounded-lg hover:bg-amber-100/60 tracking-wide"
-            style={{ fontFamily: "'Outfit', 'Merriweather', serif" }}
-          >
-            About
-            <Underline />
-          </Link>
-          <div
-            onClick={() => navigate("/cart")}
-            className="relative cursor-pointer group"
-          >
-            <BsCart2 className="w-7 h-7 group-hover:text-amber-600 transition-colors" />
-            <span className="bg-amber-400 absolute -top-2 -right-3 text-xs text-white w-[20px] h-[20px] rounded-full flex items-center justify-center border-2 border-white font-bold shadow">
-              {cartCount ? cartCount : 0}
-            </span>
+    <nav className="navbar-blur shadow-xl border-b border-gray-200 sticky top-0 z-50">
+      {/* Top Bar */}
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white py-2 px-4 text-xs animate-gradient">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          <div className="flex items-center space-x-4">
+            <span>📧 jairosoft@gmail.com</span>
           </div>
-          {user ? (
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setUserDropdown(!userDropdown)}
-                className="flex items-center space-x-2 px-3 py-2 bg-white border border-gray-200 rounded-full hover:shadow-md transition-all duration-200"
-              >
-                <div className="w-7 h-7 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                  {user.name.charAt(0).toUpperCase()}
-                </div>
-                <span className="text-gray-700 font-medium text-sm hidden md:block">{user.name.split(' ')[0]}</span>
-                <FiChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${userDropdown ? 'rotate-180' : ''}`} />
-              </button>
-              
-              {userDropdown && (
-                <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
-                  <div className="px-4 py-3 border-b border-gray-100">
-                    <p className="text-sm font-medium text-gray-800 truncate">{user.name}</p>
-                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
-                  </div>
-                  
-                  <div className="py-2">
-                    <button
-                      onClick={() => {
-                        navigate('/profile');
-                        setUserDropdown(false);
-                      }}
-                      className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      <FiUser className="w-4 h-4" />
-                      <span>My Profile</span>
-                    </button>
-                    
-                    <button
-                      onClick={() => {
-                        navigate('/my-orders');
-                        setUserDropdown(false);
-                      }}
-                      className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      <FiShoppingBag className="w-4 h-4" />
-                      <span>My Orders</span>
-                    </button>
-                    
-                    <button
-                      onClick={() => {
-                        navigate('/wishlist');
-                        setUserDropdown(false);
-                      }}
-                      className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      <FiHeart className="w-4 h-4" />
-                      <span>Wishlist</span>
-                    </button>
-                    
-                    <button
-                      onClick={() => {
-                        navigate('/settings');
-                        setUserDropdown(false);
-                      }}
-                      className="w-full flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
-                    >
-                      <FiSettings className="w-4 h-4" />
-                      <span>Settings</span>
-                    </button>
-                  </div>
-                  
-                  <div className="border-t border-gray-100 pt-2">
-                    <button
-                      onClick={() => {
-                        logout();
-                        setUserDropdown(false);
-                      }}
-                      className="w-full flex items-center space-x-3 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
-                    >
-                      <FiLogOut className="w-4 h-4" />
-                      <span>Logout</span>
-                    </button>
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <button
-              onClick={() => navigate("/login")}
-              className="cursor-pointer px-7 py-2 bg-primary hover:bg- text-white rounded-full font-semibold shadow btn-glow transition font-serif"
-            >
-              Login
-            </button>
-          )}
+          <div className="flex items-center space-x-4">
+            <span>🚚 Free Shipping on orders $50+</span>
+            <span>💳 Secure Payment</span>
+          </div>
         </div>
+      </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setOpen(!open)}
-          aria-label="Menu"
-          className="sm:hidden focus:outline-none"
-        >
-          <svg
-            width="24"
-            height="18"
-            viewBox="0 0 24 18"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <rect width="24" height="2" rx="1" fill="#10b981" />
-            <rect y="8" width="18" height="2" rx="1" fill="#fbbf24" />
-            <rect y="16" width="21" height="2" rx="1" fill="#10b981" />
-          </svg>
-        </button>
+      {/* Main Navbar */}
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
+          <Link to="/" className="hover:scale-105 transition-transform duration-300">
+            <Logo size="medium" variant="default" />
+          </Link>
+
+          {/* Search Bar */}
+          <div className="flex-1 max-w-2xl mx-8 relative" ref={searchRef}>
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <div className="relative flex">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  placeholder="Search for books, authors, subjects..."
+                  className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-lg search-glow focus:outline-none text-sm transition-all duration-300"
+                />
+                <button
+                  type="submit"
+                  className="absolute right-0 top-0 h-full px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-r-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 btn-modern"
+                >
+                  <BsSearch className="w-4 h-4" />
+                </button>
+              </div>
+            </form>
+
+            {/* Search Dropdown */}
+            {searchDropdown && searchResults.length > 0 && (
+              <div className="absolute top-full left-0 right-0 bg-white/95 backdrop-blur-md border border-gray-200 rounded-xl shadow-2xl mt-2 z-50 animate-scale-in">
+                <div className="p-2">
+                  <p className="text-xs text-gray-500 mb-2">Search Results</p>
+                  {searchResults.map((book) => (
+                    <Link
+                      key={book._id}
+                      to={`/book/${book._id}`}
+                      onClick={() => {
+                        setSearchDropdown(false);
+                        setSearchTerm("");
+                      }}
+                      className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg"
+                    >
+                      <img 
+                        src={`https://jairozon.onrender.com/images/${book.image}`}
+                        alt={book.title}
+                        className="w-10 h-12 object-cover rounded"
+                      />
+                      <div>
+                        <p className="text-sm font-medium text-gray-800 truncate">{book.title}</p>
+                        <p className="text-xs text-gray-500">by {book.author}</p>
+                        <p className="text-xs text-blue-600 font-semibold">${book.offerPrice}</p>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Section */}
+          <div className="flex items-center space-x-6">
+            {/* Wishlist */}
+            <button className="flex flex-col items-center space-y-1 text-gray-600 hover:text-blue-600 transition-colors">
+              <BsHeart className="w-5 h-5" />
+              <span className="text-xs">Wishlist</span>
+            </button>
+
+            {/* Cart */}
+            <Link to="/cart" className="flex flex-col items-center space-y-1 text-gray-600 hover:text-blue-600 transition-colors relative">
+              <div className="relative">
+                <BsCart2 className="w-5 h-5" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-2 -right-2 bg-gradient-to-r from-red-500 to-pink-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold badge-pulse">
+                    {cartCount}
+                  </span>
+                )}
+              </div>
+              <span className="text-xs">Cart</span>
+            </Link>
+
+            {/* User Account */}
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <button
+                  onClick={() => setUserDropdown(!userDropdown)}
+                  className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
+                >
+                  {user?.profileImage ? (
+                    <img 
+                      src={`https://jairozon.onrender.com/images/${user.profileImage}`}
+                      alt="Profile"
+                      className="w-8 h-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                      {user.name.charAt(0).toUpperCase()}
+                    </div>
+                  )}
+                  <div className="text-left hidden md:block">
+                    <p className="text-sm font-medium text-gray-800">Hello,</p>
+                    <p className="text-xs text-gray-600">{user.name.split(' ')[0]}</p>
+                  </div>
+                  <FiChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${userDropdown ? 'rotate-180' : ''}`} />
+                </button>
+
+                {userDropdown && (
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                    <div className="px-4 py-3 border-b border-gray-100">
+                      <p className="text-sm font-medium text-gray-800">{user.name}</p>
+                      <p className="text-xs text-gray-500">{user.email}</p>
+                    </div>
+                    
+                    <div className="py-2">
+                      <Link
+                        to="/profile"
+                        onClick={() => setUserDropdown(false)}
+                        className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <FiUser className="w-4 h-4" />
+                        <span>My Profile</span>
+                      </Link>
+                      
+                      <Link
+                        to="/my-orders"
+                        onClick={() => setUserDropdown(false)}
+                        className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <FiShoppingBag className="w-4 h-4" />
+                        <span>My Orders</span>
+                      </Link>
+                      
+                      <Link
+                        to="/settings"
+                        onClick={() => setUserDropdown(false)}
+                        className="flex items-center space-x-3 px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                      >
+                        <FiSettings className="w-4 h-4" />
+                        <span>Settings</span>
+                      </Link>
+                    </div>
+                    
+                    <div className="border-t border-gray-100 pt-2">
+                      <button
+                        onClick={() => {
+                          logout();
+                          setUserDropdown(false);
+                        }}
+                        className="w-full flex items-center space-x-3 px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
+                      >
+                        <FiLogOut className="w-4 h-4" />
+                        <span>Logout</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 font-medium btn-modern ripple"
+              >
+                Login
+              </Link>
+            )}
+
+            {/* Mobile Menu Button */}
+            <button
+              onClick={() => setOpen(!open)}
+              className="md:hidden p-2"
+            >
+              {open ? <FiX className="w-6 h-6" /> : <FiMenu className="w-6 h-6" />}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Categories Bar */}
+      <div className="bg-gray-50 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="flex items-center space-x-8 py-3 overflow-x-auto">
+            <Link
+              to="/books"
+              className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors whitespace-nowrap"
+            >
+              <span>📚</span>
+              <span className="text-sm font-medium">All Books</span>
+            </Link>
+            {categories.map((category) => (
+              <button
+                key={category.name}
+                onClick={() => {
+                  setSelectedCategory(category.name);
+                  navigate('/books');
+                }}
+                className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors whitespace-nowrap"
+              >
+                <span>{category.icon}</span>
+                <span className="text-sm font-medium">{category.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Mobile Menu */}
-      <div
-        className={`${open ? "flex" : "hidden"
-          } sm:hidden absolute top-[60px] left-0 w-full bg-white/95 shadow-lg py-6 flex-col items-start gap-4 px-8 text-base z-40 rounded-b-2xl`}
-      >
-        <Link
-          to="/"
-          className="group relative hover:text-amber-700 transition-colors font-serif"
-          style={{ fontFamily: "'Outfit', 'Merriweather', serif" }}
-          onClick={() => setOpen(false)}
-        >
-          Home
-          <Underline />
-        </Link>
-        <Link
-          to="/books"
-          className="group relative hover:text-amber-700 transition-colors font-serif"
-          style={{ fontFamily: "'Outfit', 'Merriweather', serif" }}
-          onClick={() => setOpen(false)}
-        >
-          Books
-          <Underline />
-        </Link>
-        <Link
-          to="/about"
-          className="group relative hover:text-amber-700 transition-colors font-serif"
-          style={{ fontFamily: "'Outfit', 'Merriweather', serif" }}
-          onClick={() => setOpen(false)}
-        >
-          About
-          <Underline />
-        </Link>
-        <div
-          onClick={() => {
-            navigate("/cart");
-            setOpen(false);
-          }}
-          className="relative cursor-pointer flex items-center gap-2"
-        >
-          <BsCart2 className="w-6 h-6" />
-          <span className="bg-amber-400 text-xs text-white w-[18px] h-[18px] rounded-full flex items-center justify-center border-2 border-white font-bold shadow">
-            {cartCount ? cartCount : 0}
-          </span>
-          <span className="font-serif">Cart</span>
-        </div>
-        {user ? (
-          <div className="flex flex-col gap-2 w-full">
-            <button
-              onClick={() => {
-                navigate("/my-orders");
-                window.scrollTo({ top: 0, behavior: "smooth" });
-                setOpen(false);
-              }}
-              className="px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-full cursor-pointer shadow btn-glow font-serif"
+      {open && (
+        <div className="md:hidden bg-white border-t border-gray-200">
+          <div className="px-4 py-4 space-y-4">
+            <Link
+              to="/books"
+              onClick={() => setOpen(false)}
+              className="block text-gray-700 hover:text-blue-600 font-medium"
             >
-              My Orders
-            </button>
-            <p
-              onClick={() => {
-                logout();
-                setOpen(false);
-              }}
-              className="cursor-pointer hover:underline text-emerald-700 font-serif"
-            >
-              Logout
-            </p>
+              All Books
+            </Link>
+            {categories.map((category) => (
+              <button
+                key={category.name}
+                onClick={() => {
+                  setSelectedCategory(category.name);
+                  navigate('/books');
+                  setOpen(false);
+                }}
+                className="block text-left text-gray-700 hover:text-blue-600"
+              >
+                {category.icon} {category.name}
+              </button>
+            ))}
+            {!user && (
+              <Link
+                to="/login"
+                onClick={() => setOpen(false)}
+                className="block bg-blue-600 text-white px-4 py-2 rounded-lg text-center"
+              >
+                Login
+              </Link>
+            )}
           </div>
-        ) : (
-          <button
-            onClick={() => {
-              navigate("/login");
-              setOpen(false);
-            }}
-            className="cursor-pointer px-8 py-2 bg-amber-400 hover:bg-amber-500 text-white rounded-full font-semibold shadow btn-glow font-serif"
-          >
-            Login
-          </button>
-        )}
-      </div>
+        </div>
+      )}
     </nav>
   );
 };

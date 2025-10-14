@@ -11,6 +11,8 @@ import orderRouter from "./routes/order.routes.js";
 import cartRouter from "./routes/cart.routes.js";
 import bookRouter from "./routes/book.routes.js";
 import paymentRouter from "./routes/payment.routes.js";
+import newsletterRouter from "./routes/newsletter.routes.js";
+import passwordRouter from "./routes/password.routes.js";
 const app = express();
 const PORT = process.env.PORT || 4000;
 //connectDB
@@ -19,6 +21,7 @@ connectDB();
 const allowedOrigins = [
   'http://localhost:5173',
   'https://jairozon.netlify.app',
+  'https://jairozon.com',
   process.env.FRONTEND_URL
 ].filter(Boolean);
 
@@ -41,6 +44,8 @@ app.use("/cart", cartRouter);
 app.use("/order", orderRouter);
 app.use("/address", addressRouter);
 app.use("/payment", paymentRouter);
+app.use("/newsletter", newsletterRouter);
+app.use("/password", passwordRouter);
 // Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port http://localhost:${PORT}`);

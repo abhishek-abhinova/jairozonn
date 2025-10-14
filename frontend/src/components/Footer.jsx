@@ -1,95 +1,98 @@
-import assets from "../assets/assets";
+import Logo from "./Logo";
+import NewsletterForm from "./NewsletterForm";
 
 const Footer = () => {
     return (
-        <footer
-            className="mt-16 bg-gradient-to-r from-yellow-50 via-amber-100 to-emerald-100 text-emerald-900 px-6 pt-12 md:px-16 lg:px-36 w-full shadow-inner border-t border-yellow-200"
-        >
-            <div className="flex flex-col md:flex-row justify-between w-full gap-10 border-b border-amber-200 pb-10">
-                {/* Logo + About */}
-                <div className="md:max-w-96">
-                    <div className="flex items-center gap-3 mb-4">
-                        {/* Simple open book SVG for footer */}
-                        <svg width="40" height="40" viewBox="0 0 48 48" fill="none">
-                            <g>
-                                <path
-                                    d="M24 10C27.5 7 38 7 44 12V38C38 33 27.5 33 24 36C20.5 33 10 33 4 38V12C10 7 20.5 7 24 10Z"
-                                    fill="url(#footerBookGradient)"
-                                    stroke="#fbbf24"
-                                    strokeWidth="2"
-                                />
-                                <path
-                                    d="M24 10V36"
-                                    stroke="#34d399"
-                                    strokeWidth="2"
-                                    strokeLinecap="round"
-                                />
-                                <defs>
-                                    <linearGradient id="footerBookGradient" x1="4" y1="7" x2="44" y2="38" gradientUnits="userSpaceOnUse">
-                                        <stop stopColor="#ffe066" />
-                                        <stop offset="0.5" stopColor="#fbbf24" />
-                                        <stop offset="1" stopColor="#34d399" />
-                                    </linearGradient>
-                                </defs>
-                            </g>
-                        </svg>
-                        <span className="font-extrabold text-2xl tracking-tight bg-gradient-to-r from-amber-700 via-yellow-600 to-emerald-700 bg-clip-text text-transparent font-serif italic drop-shadow-lg">
-                            Jairozon
-                        </span>
-                    </div>
-                    <p className="mt-2 text-sm leading-relaxed">
-                        Jairozon is an online bookstore dedicated to providing quality educational
-                        and inspirational books for readers worldwide. Founded by <strong>Jairo Moreno</strong>,
-                        Jairozon blends passion for knowledge with accessibility, making books available
-                        to students, teachers, and readers everywhere.
-                    </p>
-                    <div className="flex items-center gap-3 mt-5">
-                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-                            <svg className="w-6 h-6 hover:scale-110 transition" fill="#1877f3" viewBox="0 0 24 24"><path d="M22.675 0h-21.35c-.733 0-1.325.592-1.325 1.326v21.348c0 .733.592 1.326 1.325 1.326h11.495v-9.294h-3.128v-3.622h3.128v-2.671c0-3.1 1.893-4.788 4.659-4.788 1.325 0 2.463.099 2.797.143v3.24l-1.918.001c-1.504 0-1.797.715-1.797 1.763v2.312h3.587l-.467 3.622h-3.12v9.294h6.116c.73 0 1.323-.593 1.323-1.326v-21.349c0-.734-.593-1.326-1.324-1.326z" /></svg>
-                        </a>
-                        <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" aria-label="Twitter">
-                            <svg className="w-6 h-6 hover:scale-110 transition" fill="#1da1f2" viewBox="0 0 24 24"><path d="M24 4.557a9.93 9.93 0 0 1-2.828.775 4.932 4.932 0 0 0 2.165-2.724c-.951.564-2.005.974-3.127 1.195a4.92 4.92 0 0 0-8.384 4.482c-4.086-.205-7.713-2.164-10.141-5.144a4.822 4.822 0 0 0-.666 2.475c0 1.708.87 3.216 2.188 4.099a4.904 4.904 0 0 1-2.229-.616c-.054 2.281 1.581 4.415 3.949 4.89a4.936 4.936 0 0 1-2.224.084c.627 1.956 2.444 3.377 4.6 3.417a9.867 9.867 0 0 1-6.102 2.104c-.396 0-.787-.023-1.175-.069a13.945 13.945 0 0 0 7.548 2.212c9.057 0 14.009-7.513 14.009-14.009 0-.213-.005-.425-.014-.636a10.012 10.012 0 0 0 2.457-2.548z" /></svg>
-                        </a>
-                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-                            <svg className="w-6 h-6 hover:scale-110 transition" fill="#e4405f" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.974.974 1.246 2.241 1.308 3.608.058 1.266.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.974.974-2.241 1.246-3.608 1.308-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.974-.974-1.246-2.241-1.308-3.608-.058-1.266-.07-1.646-.07-4.85s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.974-.974 2.241-1.246 3.608-1.308 1.266-.058 1.646-.07 4.85-.07zm0-2.163c-3.259 0-3.667.012-4.947.07-1.276.058-2.687.334-3.678 1.325-.991.991-1.267 2.402-1.325 3.678-.058 1.28-.07 1.688-.07 4.947s.012 3.667.07 4.947c.058 1.276.334 2.687 1.325 3.678.991.991 2.402 1.267 3.678 1.325 1.28.058 1.688.07 4.947.07s3.667-.012 4.947-.07c1.276-.058 2.687-.334 3.678-1.325.991-.991 1.267-2.402 1.325-3.678.058-1.28.07-1.688.07-4.947s-.012-3.667-.07-4.947c-.058-1.276-.334-2.687-1.325-3.678-.991-.991-2.402-1.267-3.678-1.325-1.28-.058-1.688-.07-4.947-.07z" /><path d="M12 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" /></svg>
-                        </a>
-                    </div>
-                </div>
+        <footer className="mt-20 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 text-white relative overflow-hidden">
+            {/* Animated Background */}
+            <div className="absolute inset-0">
+                <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-blue-600/10 via-purple-600/10 to-indigo-600/10"></div>
+                <div className="absolute top-20 left-20 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
+                <div className="absolute bottom-20 right-20 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '2s'}}></div>
+                <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
+            </div>
 
-                {/* Links */}
-                <div className="flex-1 flex items-start md:justify-end gap-16 md:gap-32">
+            <div className="relative z-10 max-w-7xl mx-auto px-6 pt-16 pb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                    {/* Company Info */}
+                    <div className="lg:col-span-2">
+                        <div className="mb-6">
+                            <Logo size="large" variant="light" />
+                        </div>
+                        <p className="text-gray-300 text-lg leading-relaxed mb-8 max-w-md">
+                            Your premier destination for educational excellence. Empowering minds through carefully curated books and learning resources.
+                        </p>
+                        <div className="flex space-x-4">
+                            <a href="https://facebook.com" className="group w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-blue-500 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+                                <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                            </a>
+                            <a href="https://twitter.com" className="group w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-blue-400 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+                                <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
+                            </a>
+                            <a href="https://instagram.com" className="group w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-pink-500 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+                                <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M12.017 0C5.396 0 .029 5.367.029 11.987c0 6.62 5.367 11.987 11.988 11.987 6.62 0 11.987-5.367 11.987-11.987C24.014 5.367 18.637.001 12.017.001zM8.449 16.988c-1.297 0-2.448-.49-3.323-1.297C4.198 14.895 3.708 13.744 3.708 12.447s.49-2.448 1.418-3.323C6.001 8.198 7.152 7.708 8.449 7.708s2.448.49 3.323 1.416c.875.875 1.365 2.026 1.365 3.323s-.49 2.448-1.365 3.323c-.875.807-2.026 1.218-3.323 1.218zm7.718-1.297c-.875.875-2.026 1.365-3.323 1.365s-2.448-.49-3.323-1.365c-.875-.875-1.365-2.026-1.365-3.323s.49-2.448 1.365-3.323c.875-.875 2.026-1.365 3.323-1.365s2.448.49 3.323 1.365c.875.875 1.365 2.026 1.365 3.323s-.49 2.448-1.365 3.323z"/></svg>
+                            </a>
+                            <a href="https://linkedin.com" className="group w-12 h-12 bg-white/10 backdrop-blur-sm rounded-xl flex items-center justify-center hover:bg-blue-600 transition-all duration-300 transform hover:scale-110 hover:-translate-y-1">
+                                <svg className="w-6 h-6 text-white group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+
+                    {/* Quick Links */}
                     <div>
-                        <h2 className="font-bold mb-5 text-amber-700 tracking-wide">Quick Links</h2>
-                        <ul className="text-sm space-y-2">
-                            <li>
-                                <a href="/" className="hover:text-amber-600 transition-colors underline-offset-4 hover:underline">Home</a>
-                            </li>
-                            <li>
-                                <a href="/about" className="hover:text-amber-600 transition-colors underline-offset-4 hover:underline">About Us</a>
-                            </li>
-                            <li>
-                                <a href="/contact" className="hover:text-amber-600 transition-colors underline-offset-4 hover:underline">Contact Us</a>
-                            </li>
-                            <li>
-                                <a href="/privacy-policy" className="hover:text-amber-600 transition-colors underline-offset-4 hover:underline">Privacy Policy</a>
-                            </li>
+                        <h3 className="text-xl font-bold mb-6 text-white">Quick Links</h3>
+                        <ul className="space-y-4">
+                            <li><a href="/" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-blue-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>Home</a></li>
+                            <li><a href="/books" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-blue-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>Books</a></li>
+                            <li><a href="/about" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-blue-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>About Us</a></li>
+                            <li><a href="/privacy-policy" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-blue-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>Privacy Policy</a></li>
                         </ul>
                     </div>
+
+                    {/* Categories */}
                     <div>
-                        <h2 className="font-bold mb-5 text-amber-700 tracking-wide">Contact</h2>
-                        <div className="text-sm space-y-2">
-                            <p>📞 <a href="tel:+1234567890" className="hover:text-emerald-600 transition-colors">+1 (689)340-1965</a></p>
-                            <p>📧 <a href="mailto:support@jairozon.com" className="hover:text-emerald-600 transition-colors">jairosoft@gmail.com</a></p>
+                        <h3 className="text-xl font-bold mb-6 text-white">Categories</h3>
+                        <ul className="space-y-4">
+                            <li><a href="/books?category=Mathematics" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-purple-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>Mathematics</a></li>
+                            <li><a href="/books?category=Science" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-purple-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>Science</a></li>
+                            <li><a href="/books?category=Programming" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-purple-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>Programming</a></li>
+                            <li><a href="/books?category=Business" className="text-gray-300 hover:text-white hover:translate-x-2 transition-all duration-300 flex items-center group"><span className="w-2 h-2 bg-purple-400 rounded-full mr-3 group-hover:bg-white transition-colors"></span>Business</a></li>
+                        </ul>
+                    </div>
+
+                    {/* Contact Info */}
+                    <div>
+                        <h3 className="text-xl font-bold mb-6 text-white">Get in Touch</h3>
+                        <div className="space-y-4">
+                            <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
+                                    <svg className="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                                </div>
+                                <div>
+                                    <p className="text-gray-400 text-sm">Email</p>
+                                    <a href="mailto:jairosoft@gmail.com" className="text-white hover:text-purple-400 transition-colors">jairosoft@gmail.com</a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <NewsletterForm />
             </div>
 
-            {/* Copyright */}
-            <p className="pt-6 text-center text-sm pb-6 text-emerald-800">
-                © {new Date().getFullYear()} <span className="font-bold text-amber-700">Jairozon</span> | Owned by <strong>Jairo Moreno</strong> |
-                Developed with <span className="animate-pulse text-pink-500">❤️</span> by <a href="https://abhinova.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-emerald-600">Abhinova.com</a>
-            </p>
+            {/* Bottom Bar */}
+            <div className="relative z-10 border-t border-white/10 mt-12">
+                <div className="max-w-7xl mx-auto px-6 py-6">
+                    <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+                        <p className="text-gray-400 text-sm">
+                            © {new Date().getFullYear()} <span className="font-bold text-white">Jairozon</span>. All rights reserved. | Owned by <strong className="text-blue-400">Jairo Moreno</strong>
+                        </p>
+                        <p className="text-gray-400 text-sm">
+                            Developed with <span className="text-red-500 animate-pulse">❤️</span> by <a href="https://abhinova.com" target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-white transition-colors font-medium">Abhinova.com</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
         </footer>
     );
 };

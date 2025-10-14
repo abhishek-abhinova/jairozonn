@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="32" height="32" rx="8" fill="url(#gradient0)"/>
+<path d="M16 3C17.1 3 18 3.9 18 5V27C18 28.1 17.1 29 16 29H8C6.9 29 6 28.1 6 27V5C6 3.9 6.9 3 8 3H16ZM16 5H8V27H16V5ZM24 9V23C24 24.1 23.1 25 22 25H20V23H22V11H20V9H22C23.1 9 24 9.9 24 9Z" fill="white" fill-opacity="0.9"/>
+<text x="16" y="20" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">J</text>
+<defs>
+<linearGradient id="gradient0" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+<stop stop-color="#3982F6"/>
+<stop offset="0.5" stop-color="#8B5CF6"/>
+<stop offset="1" stop-color="#6366F1"/>
+</linearGradient>
+</defs>
+</svg>

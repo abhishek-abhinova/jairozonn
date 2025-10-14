@@ -28,6 +28,10 @@ if (!name || !email || !password) {
         // Save the user to the database
         await user.save();
 
+        // Send registration success email
+        const { sendRegistrationSuccessEmail } = await import('../services/emailService.js');
+        await sendRegistrationSuccessEmail(email, name);
+
         // Generate a JWT token
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
             expiresIn: "1d",

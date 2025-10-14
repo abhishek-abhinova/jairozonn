@@ -3,9 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import axios from "axios";
 
-axios.defaults.baseURL = process.env.NODE_ENV === 'production' 
-  ? import.meta.env.VITE_API_URL || "https://your-railway-app.railway.app" 
-  : "http://localhost:5000";
+axios.defaults.baseURL = import.meta.env.VITE_API_URL || "https://jairozon.onrender.com";
 
 axios.defaults.withCredentials = true; // needed if backend uses cookies
 
@@ -76,14 +74,14 @@ const AppContextProvider = ({ children }) => {
     const existingBook = cart.find((item) => item._id === book._id);
     const newCart = existingBook
       ? cart.map((item) =>
-          item._id === book._id
-            ? { ...item, quantity: item.quantity + 1 }
-            : item
-        )
+        item._id === book._id
+          ? { ...item, quantity: item.quantity + 1 }
+          : item
+      )
       : [...cart, { ...book, quantity: 1 }];
-    
+
     setCart(newCart);
-    
+
     if (user) {
       try {
         await axios.post("/cart/add", { productId: book._id, quantity: 1 });
@@ -91,7 +89,7 @@ const AppContextProvider = ({ children }) => {
         console.error("Failed to sync cart");
       }
     }
-    
+
     toast.success("Book added to cart");
   };
 
@@ -103,9 +101,9 @@ const AppContextProvider = ({ children }) => {
           : item
       )
       .filter((item) => item.quantity > 0);
-    
+
     setCart(newCart);
-    
+
     if (user) {
       try {
         await axios.post("/cart/remove", { productId: bookId });
@@ -113,7 +111,7 @@ const AppContextProvider = ({ children }) => {
         console.error("Failed to sync cart");
       }
     }
-    
+
     toast.success("Book removed from cart");
   };
 
@@ -121,9 +119,9 @@ const AppContextProvider = ({ children }) => {
     const newCart = cart.map((item) =>
       item._id === productId ? { ...item, quantity: newQty } : item
     );
-    
+
     setCart(newCart);
-    
+
     if (user) {
       try {
         await axios.post("/cart/update", { productId, quantity: newQty });
@@ -131,7 +129,7 @@ const AppContextProvider = ({ children }) => {
         console.error("Failed to sync cart");
       }
     }
-    
+
     toast.success("Cart updated");
   };
 
@@ -160,7 +158,7 @@ const AppContextProvider = ({ children }) => {
   // --- Restore user/token on refresh ---
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    
+
     if (storedUser) {
       try {
         setUser(JSON.parse(storedUser));
@@ -168,7 +166,7 @@ const AppContextProvider = ({ children }) => {
         localStorage.removeItem("user");
       }
     }
-    
+
     // Always try to fetch user from server to verify session
     fetchUser();
     fetchBooks();

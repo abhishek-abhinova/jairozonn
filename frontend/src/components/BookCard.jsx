@@ -13,13 +13,13 @@ const BookCard = ({ book }) => {
 
   return (
     <div 
-      className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
+      className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden card-modern"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* Discount Badge */}
       {discount > 0 && (
-        <div className="absolute top-4 left-4 z-10 bg-red-500 text-white px-3 py-1 rounded-full text-sm font-bold">
+        <div className="absolute top-4 left-4 z-10 bg-gradient-to-r from-red-500 to-pink-500 text-white px-3 py-1 rounded-full text-sm font-bold shadow-lg animate-pulse">
           {discount}% OFF
         </div>
       )}
@@ -27,7 +27,7 @@ const BookCard = ({ book }) => {
       {/* Wishlist Button */}
       <button
         onClick={() => setIsWishlisted(!isWishlisted)}
-        className="absolute top-4 right-4 z-10 w-10 h-10 bg-white rounded-full shadow-md flex items-center justify-center transition-all duration-200 hover:scale-110"
+        className="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 backdrop-blur-sm rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 hover:bg-red-50 ripple"
       >
         <FiHeart className={`w-5 h-5 ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-400'}`} />
       </button>
@@ -43,16 +43,16 @@ const BookCard = ({ book }) => {
         </Link>
         
         {/* Quick Actions Overlay */}
-        <div className={`absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center space-x-4 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
+        <div className={`absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-transparent flex items-center justify-center space-x-4 transition-all duration-500 ${isHovered ? 'opacity-100' : 'opacity-0'}`}>
           <Link 
             to={`/book/${book._id}`}
-            className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-800 hover:bg-blue-500 hover:text-white transition-colors duration-200"
+            className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-800 hover:bg-blue-500 hover:text-white transition-all duration-300 transform hover:scale-110 shadow-lg"
           >
             <FiEye className="w-5 h-5" />
           </Link>
           <button
             onClick={() => addToCart(book)}
-            className="w-12 h-12 bg-white rounded-full flex items-center justify-center text-gray-800 hover:bg-green-500 hover:text-white transition-colors duration-200"
+            className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-full flex items-center justify-center text-gray-800 hover:bg-green-500 hover:text-white transition-all duration-300 transform hover:scale-110 shadow-lg ripple"
           >
             <FiShoppingCart className="w-5 h-5" />
           </button>
@@ -98,7 +98,7 @@ const BookCard = ({ book }) => {
         {/* Add to Cart Button */}
         <button 
           onClick={() => addToCart(book)}
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl btn-modern ripple"
         >
           Add to Cart
         </button>
