@@ -20,6 +20,7 @@ connectDB();
 // Middlewares
 const allowedOrigins = [
   'http://localhost:5173',
+  'http://localhost:5174',
   'https://jairozon.netlify.app',
   'https://jairozon.com',
   process.env.FRONTEND_URL

@@ -31,6 +31,22 @@ const MyOrders = () => {
         }
     };
 
+    const cancelOrder = async (orderId) => {
+        if (!window.confirm('Are you sure you want to cancel this order?')) return;
+        
+        try {
+            const { data } = await axios.put(`/order/cancel/${orderId}`);
+            if (data.success) {
+                toast.success('Order cancelled successfully');
+                setOrders(orders.map(order => 
+                    order._id === orderId ? { ...order, status: 'Cancelled' } : order
+                ));
+            }
+        } catch (error) {
+            toast.error('Failed to cancel order');
+        }
+    };
+
     const getStatusIcon = (status) => {
         switch (status) {
             case 'Pending': return <FiClock className="w-5 h-5 text-yellow-600" />;
@@ -205,6 +221,15 @@ const MyOrders = () => {
                                         <button className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors">
                                             <FiDownload className="w-4 h-4" />
                                             <span>Download Invoice</span>
+                                        </button>
+                                    )}
+                                    {(order.status === 'Pending' || order.status === 'Processing') && (
+                                        <button 
+                                            onClick={() => cancelOrder(order._id)}
+                                            className="flex items-center space-x-2 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                                        >
+                                            <FiX className="w-4 h-4" />
+                                            <span>Cancel Order</span>
                                         </button>
                                     )}
                                 </div>

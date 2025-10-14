@@ -8,6 +8,8 @@ const Cart = () => {
     const [selectedAddress, setSelectedAddress] = useState(null);
     const [paymentOptions, setPaymentOptions] = useState("COD");
     const [loading, setLoading] = useState(false);
+    const [showOrderSuccess, setShowOrderSuccess] = useState(false);
+    const [orderDetails, setOrderDetails] = useState(null);
 
     const {
         cart,
@@ -27,9 +29,9 @@ const Cart = () => {
             setLoading(true);
             const { data } = await axios.get("/address/get");
             if (data.success) {
-                setAddress(data.address);
-                if (data.address.length > 0) {
-                    setSelectedAddress(data.address[0]);
+                setAddress(data.addresses || []);
+                if (data.addresses && data.addresses.length > 0) {
+                    setSelectedAddress(data.addresses[0]);
                 }
             } else {
                 toast.error(data.message);
@@ -64,9 +66,13 @@ const Cart = () => {
                     address: selectedAddress._id,
                 });
                 if (data.success) {
-                    toast.success(data.message);
+                    setOrderDetails({
+                        orderId: data.orderId,
+                        amount: totalCartPrice + tax,
+                        items: cart.length
+                    });
+                    setShowOrderSuccess(true);
                     setCart([]);
-                    navigate("/orders");
                 } else {
                     toast.error(data.message);
                 }
@@ -209,10 +215,10 @@ const Cart = () => {
                         </button>
                         {showAddressDropdown && (
                             <div className="absolute z-10 left-0 right-0 bg-white border border-gray-200 rounded shadow mt-1">
-                                {address.length === 0 && (
+                                {(!address || address.length === 0) && (
                                     <div className="p-3 text-gray-500">No addresses found.</div>
                                 )}
-                                {address.map((addr, idx) => (
+                                {address && address.map((addr, idx) => (
                                     <div
                                         key={idx}
                                         onClick={() => {
@@ -224,7 +230,7 @@ const Cart = () => {
                                                 : ""
                                             }`}
                                     >
-                                        {addr.address}
+                                        {`${addr.firstName} ${addr.lastName}, ${addr.street}, ${addr.city}`}
                                     </div>
                                 ))}
                                 <div
@@ -292,6 +298,46 @@ const Cart = () => {
                         : "Proceed to Checkout"}
                 </button>
             </div>
+
+            {/* Order Success Popup */}
+            {showOrderSuccess && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+                    <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 text-center">
+                        <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                            <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                        </div>
+                        <h3 className="text-2xl font-bold text-gray-800 mb-2">Order Placed Successfully!</h3>
+                        <p className="text-gray-600 mb-4">Thank you for your order. You will receive an email confirmation shortly.</p>
+                        <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                            <p className="text-sm text-gray-600">Order ID: <span className="font-semibold">#{orderDetails?.orderId?.slice(-8)}</span></p>
+                            <p className="text-sm text-gray-600">Items: <span className="font-semibold">{orderDetails?.items}</span></p>
+                            <p className="text-sm text-gray-600">Total: <span className="font-semibold">${orderDetails?.amount}</span></p>
+                        </div>
+                        <div className="flex space-x-3">
+                            <button
+                                onClick={() => {
+                                    setShowOrderSuccess(false);
+                                    navigate('/my-orders');
+                                }}
+                                className="flex-1 bg-indigo-600 text-white py-2 px-4 rounded-lg hover:bg-indigo-700 transition-colors"
+                            >
+                                View Orders
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setShowOrderSuccess(false);
+                                    navigate('/books');
+                                }}
+                                className="flex-1 bg-gray-200 text-gray-800 py-2 px-4 rounded-lg hover:bg-gray-300 transition-colors"
+                            >
+                                Continue Shopping
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

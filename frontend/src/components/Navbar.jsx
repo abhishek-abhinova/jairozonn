@@ -30,11 +30,11 @@ const Navbar = () => {
 
   const handleSearch = (value) => {
     setSearchTerm(value);
-    if (value.length > 0) {
-      const results = booksData.filter(book => 
-        book.title.toLowerCase().includes(value.toLowerCase()) ||
-        book.author.toLowerCase().includes(value.toLowerCase()) ||
-        book.category.toLowerCase().includes(value.toLowerCase())
+    if (value.length > 0 && booksData?.length > 0) {
+      const results = booksData.filter(book =>
+        book?.title?.toLowerCase().includes(value.toLowerCase()) ||
+        book?.author?.toLowerCase().includes(value.toLowerCase()) ||
+        book?.category?.toLowerCase().includes(value.toLowerCase())
       ).slice(0, 5);
       setSearchResults(results);
       setSearchDropdown(true);
@@ -100,7 +100,7 @@ const Navbar = () => {
                   type="submit"
                   className="absolute right-0 top-0 h-full px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-r-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 btn-modern"
                 >
-                  <BsSearch className="w-4 h-4" />
+                  <BsSearch className="w-4 h-12" />
                 </button>
               </div>
             </form>
@@ -120,7 +120,7 @@ const Navbar = () => {
                       }}
                       className="flex items-center space-x-3 p-2 hover:bg-gray-50 rounded-lg"
                     >
-                      <img 
+                      <img
                         src={`https://jairozon.onrender.com/images/${book.image}`}
                         alt={book.title}
                         className="w-10 h-12 object-cover rounded"
@@ -166,19 +166,22 @@ const Navbar = () => {
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-50 transition-colors"
                 >
                   {user?.profileImage ? (
-                    <img 
+                    <img
                       src={`https://jairozon.onrender.com/images/${user.profileImage}`}
                       alt="Profile"
                       className="w-8 h-8 rounded-full object-cover"
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                        e.target.nextSibling.style.display = 'flex';
+                      }}
                     />
-                  ) : (
-                    <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
-                      {user.name.charAt(0).toUpperCase()}
-                    </div>
-                  )}
+                  ) : null}
+                  <div className={`w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-sm font-bold ${user?.profileImage ? 'hidden' : ''}`}>
+                    {user?.name?.charAt(0)?.toUpperCase() || 'U'}
+                  </div>
                   <div className="text-left hidden md:block">
                     <p className="text-sm font-medium text-gray-800">Hello,</p>
-                    <p className="text-xs text-gray-600">{user.name.split(' ')[0]}</p>
+                    <p className="text-xs text-gray-600">{user?.name?.split(' ')[0] || 'User'}</p>
                   </div>
                   <FiChevronDown className={`w-4 h-4 text-gray-500 transition-transform ${userDropdown ? 'rotate-180' : ''}`} />
                 </button>
@@ -186,10 +189,10 @@ const Navbar = () => {
                 {userDropdown && (
                   <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 max-w-xs">
                     <div className="px-4 py-3 border-b border-gray-100">
-                      <p className="text-sm font-medium text-gray-800">{user.name}</p>
-                      <p className="text-xs text-gray-500">{user.email}</p>
+                      <p className="text-sm font-medium text-gray-800">{user?.name || 'User'}</p>
+                      <p className="text-xs text-gray-500">{user?.email || 'No email'}</p>
                     </div>
-                    
+
                     <div className="py-2">
                       <Link
                         to="/profile"
@@ -199,7 +202,7 @@ const Navbar = () => {
                         <FiUser className="w-4 h-4" />
                         <span>My Profile</span>
                       </Link>
-                      
+
                       <Link
                         to="/my-orders"
                         onClick={() => setUserDropdown(false)}
@@ -208,7 +211,7 @@ const Navbar = () => {
                         <FiShoppingBag className="w-4 h-4" />
                         <span>My Orders</span>
                       </Link>
-                      
+
                       <Link
                         to="/settings"
                         onClick={() => setUserDropdown(false)}
@@ -218,7 +221,7 @@ const Navbar = () => {
                         <span>Settings</span>
                       </Link>
                     </div>
-                    
+
                     <div className="border-t border-gray-100 pt-2">
                       <button
                         onClick={() => {
@@ -265,7 +268,7 @@ const Navbar = () => {
               <span>📚</span>
               <span className="text-sm font-medium">All Books</span>
             </Link>
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <button
                 key={category.name}
                 onClick={() => {
@@ -277,7 +280,7 @@ const Navbar = () => {
                 <span>{category.icon}</span>
                 <span className="text-sm font-medium">{category.name}</span>
               </button>
-            ))}
+            )) || []}
           </div>
         </div>
       </div>
@@ -303,7 +306,7 @@ const Navbar = () => {
               </button>
             </form>
           </div>
-          
+
           {/* Mobile Navigation */}
           <div className="px-4 py-4 space-y-4">
             <Link
@@ -314,7 +317,7 @@ const Navbar = () => {
               <span>📚</span>
               <span>All Books</span>
             </Link>
-            {categories.map((category) => (
+            {categories?.map((category) => (
               <button
                 key={category.name}
                 onClick={() => {
@@ -327,14 +330,14 @@ const Navbar = () => {
                 <span>{category.icon}</span>
                 <span>{category.name}</span>
               </button>
-            ))}
-            
+            )) || []}
+
             {/* Mobile Wishlist */}
             <button className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 py-2 w-full text-left">
               <BsHeart className="w-5 h-5" />
               <span>Wishlist</span>
             </button>
-            
+
             {!user && (
               <Link
                 to="/login"

@@ -18,7 +18,7 @@ export const placeOrderCOD = async (req, res) => {
             }
             amount += book.price * item.quantity;
         }
-        await Order.create({
+        const order = await Order.create({
             userId,
             items,
             amount,
@@ -26,7 +26,23 @@ export const placeOrderCOD = async (req, res) => {
             paymentType: "COD",
             isPaid: false
         });
-        res.status(201).json({ message: "Order placed successfully", success: true });
+        
+        // Send order confirmation email
+        try {
+            const user = await User.findById(userId);
+            if (user && user.email) {
+                // Email will be sent here - placeholder for now
+                console.log(`Order confirmation email should be sent to: ${user.email}`);
+            }
+        } catch (emailError) {
+            console.error('Failed to send order confirmation email:', emailError);
+        }
+        
+        res.status(201).json({ 
+            message: "Order placed successfully", 
+            success: true,
+            orderId: order._id
+        });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: "Internal server error", success: false });
@@ -77,6 +93,34 @@ export const updateOrderStatus = async (req, res) => {
             message: "Order status updated successfully", 
             success: true, 
             order 
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Internal server error", success: false });
+    }
+};
+
+export const cancelOrder = async (req, res) => {
+    try {
+        const { orderId } = req.params;
+        const userId = req.userId;
+        
+        const order = await Order.findOne({ _id: orderId, userId });
+        
+        if (!order) {
+            return res.status(404).json({ message: "Order not found", success: false });
+        }
+        
+        if (order.status === 'Shipped' || order.status === 'Delivered') {
+            return res.status(400).json({ message: "Cannot cancel shipped or delivered orders", success: false });
+        }
+        
+        order.status = 'Cancelled';
+        await order.save();
+        
+        res.status(200).json({ 
+            message: "Order cancelled successfully", 
+            success: true 
         });
     } catch (error) {
         console.error(error);

@@ -75,17 +75,17 @@ const Dashboard = () => {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6 space-y-8">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-4 md:p-6 space-y-6 md:space-y-8">
       {/* Header */}
-      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-        <div className="flex items-center justify-between">
+      <div className="bg-white rounded-2xl shadow-xl p-4 md:p-8 border border-gray-100">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0">
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Admin Dashboard</h1>
-            <p className="text-gray-600 mt-2">Welcome back! Here's what's happening with your store.</p>
+            <h1 className="text-2xl md:text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Admin Dashboard</h1>
+            <p className="text-gray-600 mt-2 text-sm md:text-base">Welcome back! Here's what's happening with your store.</p>
           </div>
-          <div className="flex items-center space-x-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-2xl shadow-lg">
-            <FiTrendingUp className="w-5 h-5" />
-            <span className="font-semibold">Analytics Overview</span>
+          <div className="flex items-center space-x-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 md:px-6 py-2 md:py-3 rounded-2xl shadow-lg">
+            <FiTrendingUp className="w-4 md:w-5 h-4 md:h-5" />
+            <span className="font-semibold text-sm md:text-base">Analytics Overview</span>
           </div>
         </div>
       </div>
@@ -93,14 +93,14 @@ const Dashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statsCards.map((stat, index) => (
-          <div key={index} className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 card-modern">
+          <div key={index} className="bg-white rounded-2xl shadow-xl p-4 md:p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 card-modern">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">{stat.title}</p>
-                <p className={`text-3xl font-black ${stat.textColor} mt-2`}>{stat.value}</p>
+                <p className="text-xs md:text-sm font-semibold text-gray-500 uppercase tracking-wide">{stat.title}</p>
+                <p className={`text-xl md:text-3xl font-black ${stat.textColor} mt-2`}>{stat.value}</p>
               </div>
-              <div className={`p-4 rounded-2xl ${stat.color} shadow-lg transform hover:scale-110 transition-transform duration-300`}>
-                <stat.icon className="w-8 h-8 text-white" />
+              <div className={`p-3 md:p-4 rounded-2xl ${stat.color} shadow-lg transform hover:scale-110 transition-transform duration-300`}>
+                <stat.icon className="w-6 md:w-8 h-6 md:h-8 text-white" />
               </div>
             </div>
           </div>
@@ -108,9 +108,9 @@ const Dashboard = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-8">
         {/* Monthly Sales Chart */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 card-modern">
+        <div className="bg-white rounded-2xl shadow-xl p-4 md:p-8 border border-gray-100 card-modern">
           <div className="flex items-center space-x-3 mb-6">
             <div className="w-3 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
             <h3 className="text-xl font-bold text-gray-800">Monthly Sales</h3>
@@ -127,7 +127,7 @@ const Dashboard = () => {
         </div>
 
         {/* Top Books Chart */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 card-modern">
+        <div className="bg-white rounded-2xl shadow-xl p-4 md:p-8 border border-gray-100 card-modern">
           <div className="flex items-center space-x-3 mb-6">
             <div className="w-3 h-8 bg-gradient-to-b from-green-500 to-emerald-600 rounded-full"></div>
             <h3 className="text-xl font-bold text-gray-800">Top Selling Books</h3>
@@ -145,7 +145,7 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 card-modern">
+      <div className="bg-white rounded-2xl shadow-xl p-4 md:p-8 border border-gray-100 card-modern">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center space-x-3">
             <div className="w-3 h-8 bg-gradient-to-b from-purple-500 to-pink-600 rounded-full"></div>
@@ -159,22 +159,22 @@ const Dashboard = () => {
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Order ID
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden sm:table-cell">
                   Customer
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Amount
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">
                   Payment
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-3 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden lg:table-cell">
                   Date
                 </th>
               </tr>
@@ -182,16 +182,16 @@ const Dashboard = () => {
             <tbody className="bg-white divide-y divide-gray-200">
               {analytics.recentOrders.map((order) => (
                 <tr key={order._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                  <td className="px-3 md:px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                     #{order._id.slice(-6)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden sm:table-cell">
                     {order.userId?.name || 'N/A'}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                  <td className="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     ${order.amount.toFixed(2)}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 md:px-6 py-4 whitespace-nowrap">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                       order.status === 'Delivered' ? 'bg-green-100 text-green-800' :
                       order.status === 'Shipped' ? 'bg-blue-100 text-blue-800' :
@@ -201,14 +201,14 @@ const Dashboard = () => {
                       {order.status}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
+                  <td className="px-3 md:px-6 py-4 whitespace-nowrap hidden md:table-cell">
                     <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
                       order.isPaid ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                     }`}>
                       {order.isPaid ? 'Paid' : 'Pending'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td className="px-3 md:px-6 py-4 whitespace-nowrap text-sm text-gray-500 hidden lg:table-cell">
                     {new Date(order.createdAt).toLocaleDateString()}
                   </td>
                 </tr>
