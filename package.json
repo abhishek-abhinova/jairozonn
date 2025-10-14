@@ -1,0 +1,54 @@
+{
+  "name": "jairozon",
+  "version": "1.0.0",
+  "description": "Educational Bookstore - Full Stack E-commerce Platform",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "cd backend && npm run dev",
+    "client": "cd frontend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "install-server": "cd backend && npm install",
+    "install-client": "cd frontend && npm install",
+    "install-all": "npm run install-server && npm run install-client",
+    "start": "cd backend && npm start"
+  },
+  "keywords": [
+    "educational",
+    "bookstore",
+    "e-commerce",
+    "react",
+    "nodejs",
+    "mongodb",
+    "stripe",
+    "paypal",
+    "jairozon",
+    "abhinova"
+  ],
+  "author": {
+    "name": "Jairo Moreno",
+    "email": "jairosoft@gmail.com"
+  },
+  "developer": {
+    "name": "Abhishek Shukla",
+    "company": "Abhinova.com",
+    "email": "contact@abhinova.com",
+    "website": "https://abhinova.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jairozon/jairozon-bookstore.git"
+  },
+  "bugs": {
+    "url": "https://github.com/jairozon/jairozon-bookstore/issues"
+  },
+  "homepage": "https://jairozon.com",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

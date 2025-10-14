@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: bookstore-frontend
+    env: static
+    buildCommand: npm run build
+    publishPath: build
+    rootDir: frontend
