@@ -108,16 +108,20 @@ const AdminLayout = () => {
                                     to={item.path}
                                     end={item.path === "/admin"}
                                     onClick={() => setSidebarOpen(false)}
-                                    className={({ isActive }) => `
-                                        flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200
-                                        ${isActive 
-                                            ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105' 
-                                            : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
-                                        }
-                                    `}
+                                    className={({ isActive }) => 
+                                        `flex items-center px-4 py-3 text-sm font-medium rounded-xl transition-all duration-200 ${
+                                            isActive 
+                                                ? 'bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transform scale-105' 
+                                                : 'text-gray-700 hover:bg-gray-100 hover:text-gray-900'
+                                        }`
+                                    }
                                 >
-                                    <item.icon className={`w-5 h-5 mr-3 ${isActive ? 'text-white' : item.color}`} />
-                                    {item.name}
+                                    {({ isActive }) => (
+                                        <>
+                                            <item.icon className={`w-5 h-5 mr-3 ${isActive ? 'text-white' : item.color}`} />
+                                            {item.name}
+                                        </>
+                                    )}
                                 </NavLink>
                             ))}
                         </nav>

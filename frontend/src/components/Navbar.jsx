@@ -100,7 +100,7 @@ const Navbar = () => {
                   type="submit"
                   className="absolute right-0 top-0 h-full px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-r-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 btn-modern"
                 >
-                  <BsSearch className="w-4 h-12" />
+                  <BsSearch className="w-4 h-4" />
                 </button>
               </div>
             </form>
@@ -254,10 +254,10 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Categories Bar - Hidden on mobile */}
-      <div className="bg-gray-50 border-t border-gray-200 hidden md:block">
+      {/* Categories Bar */}
+      <div className="bg-gray-50 border-t border-gray-200">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center space-x-8 py-3 overflow-x-auto scrollbar-hide">
+          <div className="flex items-center space-x-4 md:space-x-8 py-3 overflow-x-auto scrollbar-hide">
             <Link
               to="/books"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors whitespace-nowrap"

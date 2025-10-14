@@ -8,7 +8,7 @@ export const authUser = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded.id; // send full decoded payload or decoded.id
+    req.userId = decoded.id;
     next();
   } catch (error) {
     console.log("Error in authUser middleware: ", error);

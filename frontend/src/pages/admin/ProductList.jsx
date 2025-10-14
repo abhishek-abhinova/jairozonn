@@ -66,9 +66,9 @@ const ProductList = () => {
     };
 
     return (
-        <div className="p-6 bg-gray-50 min-h-screen">
+        <div className="p-4 md:p-6 bg-gray-50 min-h-screen">
             {/* Header */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+            <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6 mb-4 md:mb-6">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                     <div>
                         <h1 className="text-3xl font-bold text-gray-800 mb-2">Book Management</h1>
@@ -85,8 +85,8 @@ const ProductList = () => {
             </div>
 
             {/* Filters */}
-            <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
-                <div className="flex flex-col md:flex-row gap-4">
+            <div className="bg-white rounded-2xl shadow-lg p-4 md:p-6 mb-4 md:mb-6">
+                <div className="flex flex-col sm:flex-row gap-4">
                     <div className="flex-1 relative">
                         <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                         <input
@@ -110,9 +110,9 @@ const ProductList = () => {
                             ))}
                         </select>
                     </div>
-                    <button className="flex items-center space-x-2 px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
+                    <button className="flex items-center justify-center space-x-2 px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors">
                         <FiDownload className="w-5 h-5" />
-                        <span>Export</span>
+                        <span className="hidden sm:inline">Export</span>
                     </button>
                 </div>
             </div>
@@ -123,12 +123,12 @@ const ProductList = () => {
                     <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                             <tr>
-                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Book</th>
-                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
-                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
-                                <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                <th className="px-3 md:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Book</th>
+                                <th className="hidden sm:table-cell px-3 md:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
+                                <th className="px-3 md:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
+                                <th className="hidden md:table-cell px-3 md:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Rating</th>
+                                <th className="hidden lg:table-cell px-3 md:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Stock</th>
+                                <th className="px-3 md:px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">

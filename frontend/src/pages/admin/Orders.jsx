@@ -148,8 +148,8 @@ const Orders = () => {
                                             <span className="text-sm font-medium text-gray-900">#{order._id.slice(-6)}</span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">{order.userId?.name || 'N/A'}</div>
-                                            <div className="text-sm text-gray-500">{order.userId?.email || 'N/A'}</div>
+                                            <div className="text-sm text-gray-900">{order.userId?.name || 'Guest User'}</div>
+                                            <div className="text-sm text-gray-500">{order.userId?.email || 'No email'}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                             <span className="text-sm font-semibold text-gray-900">${order.amount?.toFixed(2)}</span>
@@ -227,8 +227,8 @@ const Orders = () => {
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-semibold text-gray-700 mb-2">Customer</h3>
-                                    <p className="text-gray-900">{selectedOrder.userId?.name || 'N/A'}</p>
-                                    <p className="text-gray-500 text-sm">{selectedOrder.userId?.email || 'N/A'}</p>
+                                    <p className="text-gray-900">{selectedOrder.userId?.name || 'Guest User'}</p>
+                                    <p className="text-gray-500 text-sm">{selectedOrder.userId?.email || 'No email'}</p>
                                 </div>
                                 <div>
                                     <h3 className="text-sm font-semibold text-gray-700 mb-2">Total Amount</h3>
@@ -244,6 +244,40 @@ const Orders = () => {
                                         <p className="text-gray-600">{selectedOrder.address.street}</p>
                                         <p className="text-gray-600">{selectedOrder.address.city}, {selectedOrder.address.state} {selectedOrder.address.zipcode}</p>
                                         <p className="text-gray-600">{selectedOrder.address.country}</p>
+                                    </div>
+                                </div>
+                            )}
+                            
+                            {selectedOrder.items && selectedOrder.items.length > 0 && (
+                                <div>
+                                    <h3 className="text-sm font-semibold text-gray-700 mb-4">Order Items</h3>
+                                    <div className="space-y-3">
+                                        {selectedOrder.items.map((item, index) => (
+                                            <div key={index} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                                                <div className="w-16 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-lg flex items-center justify-center">
+                                                    {item.product?.image ? (
+                                                        <img 
+                                                            src={`https://jairozon.onrender.com/images/${item.product.image}`}
+                                                            alt={item.product.title}
+                                                            className="w-full h-full object-cover rounded-lg"
+                                                        />
+                                                    ) : (
+                                                        <span className="text-2xl">📚</span>
+                                                    )}
+                                                </div>
+                                                <div className="flex-1">
+                                                    <p className="font-medium text-gray-800">{item.product?.title || 'Book Title'}</p>
+                                                    <p className="text-sm text-gray-600">Author: {item.product?.author || 'Unknown'}</p>
+                                                    <p className="text-sm text-gray-600">Quantity: {item.quantity}</p>
+                                                    <p className="text-sm font-semibold text-blue-600">${item.product?.offerPrice || '0.00'} each</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <p className="font-semibold text-gray-800">
+                                                        ${((item.product?.offerPrice || 0) * item.quantity).toFixed(2)}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
                                 </div>
                             )}
