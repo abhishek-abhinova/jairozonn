@@ -8,12 +8,23 @@ import { AppContext } from '../context/AppContext';
 
 const Home = () => {
   const { setSearchQuery, setSelectedCategory } = useContext(AppContext);
-  const [showNewsletter, setShowNewsletter] = useState(true);
+  const [showNewsletter, setShowNewsletter] = useState(false);
   
   useEffect(() => {
     setSearchQuery("");
     setSelectedCategory("");
+    
+    // Check if newsletter popup has been shown in this session
+    const hasShownNewsletter = sessionStorage.getItem('newsletterShown');
+    if (!hasShownNewsletter) {
+      setShowNewsletter(true);
+    }
   }, []);
+  
+  const handleCloseNewsletter = () => {
+    setShowNewsletter(false);
+    sessionStorage.setItem('newsletterShown', 'true');
+  };
   
   return (
     <div>
@@ -21,7 +32,7 @@ const Home = () => {
       <Search />
       <Category />
       <NewArrival />
-      {showNewsletter && <NewsLetter onClose={() => setShowNewsletter(false)} />}
+      {showNewsletter && <NewsLetter onClose={handleCloseNewsletter} />}
     </div>
   )
 };

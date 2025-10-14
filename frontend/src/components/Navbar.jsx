@@ -65,13 +65,13 @@ const Navbar = () => {
   return (
     <nav className="navbar-blur shadow-xl border-b border-gray-200 sticky top-0 z-50">
       {/* Top Bar */}
-      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white py-2 px-4 text-xs animate-gradient">
+      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white py-2 px-4 text-xs animate-gradient hidden md:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <span>📧 jairosoft@gmail.com</span>
           </div>
           <div className="flex items-center space-x-4">
-            <span>🚚 Free Shipping on orders $50+</span>
+            <span className="hidden lg:inline">🚚 Free Shipping on orders $50+</span>
             <span>💳 Secure Payment</span>
           </div>
         </div>
@@ -81,12 +81,12 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link to="/" className="hover:scale-105 transition-transform duration-300">
+          <Link to="/" className="hover:scale-105 transition-transform duration-300 flex-shrink-0">
             <Logo size="medium" variant="default" />
           </Link>
 
-          {/* Search Bar */}
-          <div className="flex-1 max-w-2xl mx-8 relative" ref={searchRef}>
+          {/* Search Bar - Hidden on mobile */}
+          <div className="hidden md:flex flex-1 max-w-2xl mx-8 relative" ref={searchRef}>
             <form onSubmit={handleSearchSubmit} className="relative">
               <div className="relative flex">
                 <input
@@ -100,7 +100,7 @@ const Navbar = () => {
                   type="submit"
                   className="absolute right-0 top-0 h-full px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-r-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 btn-modern"
                 >
-                  <BsSearch className="w-4 h-4" />
+                  <BsSearch className="w-4 h-12" />
                 </button>
               </div>
             </form>
@@ -138,9 +138,9 @@ const Navbar = () => {
           </div>
 
           {/* Right Section */}
-          <div className="flex items-center space-x-6">
-            {/* Wishlist */}
-            <button className="flex flex-col items-center space-y-1 text-gray-600 hover:text-blue-600 transition-colors">
+          <div className="flex items-center space-x-3 md:space-x-6">
+            {/* Wishlist - Hidden on mobile */}
+            <button className="hidden sm:flex flex-col items-center space-y-1 text-gray-600 hover:text-blue-600 transition-colors">
               <BsHeart className="w-5 h-5" />
               <span className="text-xs">Wishlist</span>
             </button>
@@ -155,7 +155,7 @@ const Navbar = () => {
                   </span>
                 )}
               </div>
-              <span className="text-xs">Cart</span>
+              <span className="text-xs hidden sm:block">Cart</span>
             </Link>
 
             {/* User Account */}
@@ -184,7 +184,7 @@ const Navbar = () => {
                 </button>
 
                 {userDropdown && (
-                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50">
+                  <div className="absolute right-0 mt-2 w-64 bg-white rounded-xl shadow-xl border border-gray-100 py-2 z-50 max-w-xs">
                     <div className="px-4 py-3 border-b border-gray-100">
                       <p className="text-sm font-medium text-gray-800">{user.name}</p>
                       <p className="text-xs text-gray-500">{user.email}</p>
@@ -254,10 +254,10 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Categories Bar */}
-      <div className="bg-gray-50 border-t border-gray-200">
+      {/* Categories Bar - Hidden on mobile */}
+      <div className="bg-gray-50 border-t border-gray-200 hidden md:block">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center space-x-8 py-3 overflow-x-auto">
+          <div className="flex items-center space-x-8 py-3 overflow-x-auto scrollbar-hide">
             <Link
               to="/books"
               className="flex items-center space-x-2 text-gray-700 hover:text-blue-600 transition-colors whitespace-nowrap"
@@ -284,14 +284,35 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {open && (
-        <div className="md:hidden bg-white border-t border-gray-200">
+        <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
+          {/* Mobile Search */}
+          <div className="px-4 py-4 border-b border-gray-200">
+            <form onSubmit={handleSearchSubmit} className="relative">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Search books..."
+                className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-lg focus:outline-none text-sm"
+              />
+              <button
+                type="submit"
+                className="absolute right-0 top-0 h-full px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-r-lg"
+              >
+                <BsSearch className="w-4 h-4" />
+              </button>
+            </form>
+          </div>
+          
+          {/* Mobile Navigation */}
           <div className="px-4 py-4 space-y-4">
             <Link
               to="/books"
               onClick={() => setOpen(false)}
-              className="block text-gray-700 hover:text-blue-600 font-medium"
+              className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 font-medium py-2"
             >
-              All Books
+              <span>📚</span>
+              <span>All Books</span>
             </Link>
             {categories.map((category) => (
               <button
@@ -301,16 +322,24 @@ const Navbar = () => {
                   navigate('/books');
                   setOpen(false);
                 }}
-                className="block text-left text-gray-700 hover:text-blue-600"
+                className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 py-2 w-full text-left"
               >
-                {category.icon} {category.name}
+                <span>{category.icon}</span>
+                <span>{category.name}</span>
               </button>
             ))}
+            
+            {/* Mobile Wishlist */}
+            <button className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 py-2 w-full text-left">
+              <BsHeart className="w-5 h-5" />
+              <span>Wishlist</span>
+            </button>
+            
             {!user && (
               <Link
                 to="/login"
                 onClick={() => setOpen(false)}
-                className="block bg-blue-600 text-white px-4 py-2 rounded-lg text-center"
+                className="block bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-3 rounded-lg text-center font-medium mt-4"
               >
                 Login
               </Link>

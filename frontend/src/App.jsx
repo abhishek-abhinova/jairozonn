@@ -23,6 +23,7 @@ import About from './pages/About';
 import AddProduct from './pages/admin/AddProduct';
 import Orders from './pages/admin/Orders';
 import Users from './pages/admin/Users';
+import Settings from './pages/admin/Settings';
 import AdminLogin from './pages/admin/AdminLogin';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 
@@ -30,7 +31,7 @@ const App = () => {
   const isAdminPath=useLocation().pathname.includes('admin');
   const { isAdmin,navigate } =useContext(AppContext);
   return (
-    <div className="px-6 md:px-16 lg:px-24 xl:px-32  ">
+    <div className="px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24 2xl:px-32 max-w-screen-2xl mx-auto">
       {/* <SEO /> */}
       <Toaster />
       {isAdminPath ? null : <Navbar />}
@@ -54,6 +55,7 @@ const App = () => {
         <Route path='add-product' element={<AddProduct />} />
         <Route path='orders' element={<Orders />} />
         <Route path='users' element={<Users />} />
+        <Route path='settings' element={<Settings />} />
         </Route>
         <Route path='/admin/login' element={<AdminLogin />} />
       </Routes>

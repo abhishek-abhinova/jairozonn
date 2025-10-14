@@ -94,14 +94,14 @@ const Profile = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 mt-20">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-4 md:py-8 mt-16 md:mt-20">
       <div className="max-w-6xl mx-auto px-4">
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-8">
           <div className="flex items-center space-x-6">
             <div className="relative">
               {user?.profileImage ? (
                 <img 
-                  src={`http://localhost:5000/images/${user.profileImage}`} 
+                  src={`https://jairozon.onrender.com/images/${user.profileImage}`} 
                   alt="Profile" 
                   className="w-24 h-24 rounded-full object-cover shadow-lg border-4 border-white"
                 />
@@ -130,7 +130,7 @@ const Profile = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 md:gap-8">
           <div className="lg:col-span-1">
             <div className="bg-white rounded-2xl shadow-xl p-6">
               <nav className="space-y-2">
@@ -192,7 +192,7 @@ const Profile = () => {
                       <div className="flex items-center space-x-4">
                         {imagePreview || user?.profileImage ? (
                           <img 
-                            src={imagePreview || `http://localhost:5000/images/${user.profileImage}`} 
+                            src={imagePreview || `https://jairozon.onrender.com/images/${user.profileImage}`} 
                             alt="Profile Preview" 
                             className="w-20 h-20 rounded-full object-cover border-2 border-gray-300"
                           />

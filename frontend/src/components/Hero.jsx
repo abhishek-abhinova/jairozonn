@@ -6,7 +6,7 @@ const Hero = () => {
   const { navigate } = useContext(AppContext);
 
   return (
-    <div className="my-8 rounded-3xl flex flex-col lg:flex-row items-center justify-between gap-12 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 shadow-2xl p-12 relative overflow-hidden min-h-[500px] animate-gradient">
+    <div className="my-4 md:my-8 rounded-2xl md:rounded-3xl flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12 bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 shadow-2xl p-6 md:p-12 relative overflow-hidden min-h-[400px] md:min-h-[500px] animate-gradient hero-mobile">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-white opacity-5 rounded-full animate-pulse"></div>
@@ -27,40 +27,41 @@ const Hero = () => {
             🎓 Educational Excellence Since 2024
           </span>
         </div>
-        <h1 className="text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-6 animate-fade-in">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-extrabold text-white leading-tight mb-4 md:mb-6 animate-fade-in">
           Unlock Your
           <span className="block animate-gradient-x blink-underline">
             Learning Potential
           </span>
         </h1>
         
-        <p className="text-xl lg:text-2xl text-blue-100 font-medium leading-relaxed mb-8 max-w-2xl">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-blue-100 font-medium leading-relaxed mb-6 md:mb-8 max-w-2xl">
           Discover thousands of educational books curated by experts. 
           <span className="text-yellow-200 font-semibold">From textbooks to reference materials</span> - 
           everything you need for academic success.
         </p>
         
-        <div className="flex flex-wrap gap-4 mb-8">
-          <div className="flex items-center space-x-2 text-white">
-            <span className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-sm">✓</span>
-            <span>Free Shipping $50+</span>
+        <div className="flex flex-wrap gap-3 md:gap-4 mb-6 md:mb-8 justify-center lg:justify-start">
+          <div className="flex items-center space-x-2 text-white text-sm md:text-base">
+            <span className="w-5 h-5 md:w-6 md:h-6 bg-green-500 rounded-full flex items-center justify-center text-xs md:text-sm">✓</span>
+            <span className="hidden sm:inline">Free Shipping $50+</span>
+            <span className="sm:hidden">Free Ship</span>
           </div>
-          <div className="flex items-center space-x-2 text-white">
-            <span className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-sm">✓</span>
+          <div className="flex items-center space-x-2 text-white text-sm md:text-base">
+            <span className="w-5 h-5 md:w-6 md:h-6 bg-green-500 rounded-full flex items-center justify-center text-xs md:text-sm">✓</span>
             <span>Expert Curated</span>
           </div>
-          <div className="flex items-center space-x-2 text-white">
-            <span className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-sm">✓</span>
+          <div className="flex items-center space-x-2 text-white text-sm md:text-base">
+            <span className="w-5 h-5 md:w-6 md:h-6 bg-green-500 rounded-full flex items-center justify-center text-xs md:text-sm">✓</span>
             <span>24/7 Support</span>
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row gap-4 lg:gap-6 animate-float-up">
+        <div className="flex flex-col sm:flex-row gap-3 md:gap-4 lg:gap-6 animate-float-up w-full sm:w-auto">
           <button
             onClick={() => {
               navigate("/books");
               window.scrollTo({ top: 0, behavior: "smooth" });
             }}
-            className="group bg-yellow-400 hover:bg-yellow-500 transition-all duration-300 text-gray-800 rounded-2xl px-8 py-4 shadow-2xl font-bold text-lg cursor-pointer transform hover:scale-105 hover:shadow-yellow-400/25 btn-modern btn-glow ripple"
+            className="group bg-yellow-400 hover:bg-yellow-500 transition-all duration-300 text-gray-800 rounded-xl md:rounded-2xl px-6 md:px-8 py-3 md:py-4 shadow-2xl font-bold text-base md:text-lg cursor-pointer transform hover:scale-105 hover:shadow-yellow-400/25 btn-modern btn-glow ripple btn-touch"
           >
             <span className="flex items-center justify-center space-x-2">
               <span>🛍️ Shop Now</span>
@@ -70,7 +71,7 @@ const Hero = () => {
           
           <button
             onClick={() => navigate('/about')}
-            className="group bg-white/10 backdrop-blur-sm hover:bg-white hover:text-gray-800 transition-all duration-300 text-white border-2 border-white/30 rounded-2xl px-8 py-4 shadow-2xl font-bold text-lg cursor-pointer transform hover:scale-105 btn-modern ripple"
+            className="group bg-white/10 backdrop-blur-sm hover:bg-white hover:text-gray-800 transition-all duration-300 text-white border-2 border-white/30 rounded-xl md:rounded-2xl px-6 md:px-8 py-3 md:py-4 shadow-2xl font-bold text-base md:text-lg cursor-pointer transform hover:scale-105 btn-modern ripple btn-touch"
           >
             <span className="flex items-center justify-center space-x-2">
               <span>📚 Learn More</span>
@@ -87,7 +88,7 @@ const Hero = () => {
           <img 
             src={assets.hero_girl} 
             alt="Student Learning" 
-            className="relative w-80 lg:w-96 xl:w-[450px] drop-shadow-2xl animate-fade-in transform hover:scale-105 transition-transform duration-500 float-animate" 
+            className="relative w-64 sm:w-72 md:w-80 lg:w-96 xl:w-[450px] drop-shadow-2xl animate-fade-in transform hover:scale-105 transition-transform duration-500 float-animate" 
           />
           
           {/* Floating Elements */}

@@ -75,27 +75,32 @@ const Dashboard = () => {
   const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884D8'];
 
   return (
-    <div className="p-6 space-y-6">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50 p-6 space-y-8">
       {/* Header */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-800">Dashboard</h1>
-        <div className="flex items-center space-x-2 text-sm text-gray-500">
-          <FiTrendingUp className="w-4 h-4" />
-          <span>Analytics Overview</span>
+      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Admin Dashboard</h1>
+            <p className="text-gray-600 mt-2">Welcome back! Here's what's happening with your store.</p>
+          </div>
+          <div className="flex items-center space-x-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-2xl shadow-lg">
+            <FiTrendingUp className="w-5 h-5" />
+            <span className="font-semibold">Analytics Overview</span>
+          </div>
         </div>
       </div>
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statsCards.map((stat, index) => (
-          <div key={index} className="bg-white rounded-lg shadow-md p-6 border-l-4 border-l-blue-500">
+          <div key={index} className="bg-white rounded-2xl shadow-xl p-6 border border-gray-100 hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 card-modern">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">{stat.title}</p>
-                <p className={`text-2xl font-bold ${stat.textColor}`}>{stat.value}</p>
+                <p className="text-sm font-semibold text-gray-500 uppercase tracking-wide">{stat.title}</p>
+                <p className={`text-3xl font-black ${stat.textColor} mt-2`}>{stat.value}</p>
               </div>
-              <div className={`p-3 rounded-full ${stat.color} bg-opacity-10`}>
-                <stat.icon className={`w-6 h-6 ${stat.textColor}`} />
+              <div className={`p-4 rounded-2xl ${stat.color} shadow-lg transform hover:scale-110 transition-transform duration-300`}>
+                <stat.icon className="w-8 h-8 text-white" />
               </div>
             </div>
           </div>
@@ -103,10 +108,13 @@ const Dashboard = () => {
       </div>
 
       {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Monthly Sales Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Monthly Sales</h3>
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 card-modern">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-3 h-8 bg-gradient-to-b from-blue-500 to-purple-600 rounded-full"></div>
+            <h3 className="text-xl font-bold text-gray-800">Monthly Sales</h3>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={analytics.monthlySales}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -119,8 +127,11 @@ const Dashboard = () => {
         </div>
 
         {/* Top Books Chart */}
-        <div className="bg-white rounded-lg shadow-md p-6">
-          <h3 className="text-lg font-semibold text-gray-800 mb-4">Top Selling Books</h3>
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 card-modern">
+          <div className="flex items-center space-x-3 mb-6">
+            <div className="w-3 h-8 bg-gradient-to-b from-green-500 to-emerald-600 rounded-full"></div>
+            <h3 className="text-xl font-bold text-gray-800">Top Selling Books</h3>
+          </div>
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={analytics.topBooks}>
               <CartesianGrid strokeDasharray="3 3" />
@@ -134,10 +145,15 @@ const Dashboard = () => {
       </div>
 
       {/* Recent Orders */}
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-gray-800">Recent Orders</h3>
-          <FiPackage className="w-5 h-5 text-gray-500" />
+      <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100 card-modern">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center space-x-3">
+            <div className="w-3 h-8 bg-gradient-to-b from-purple-500 to-pink-600 rounded-full"></div>
+            <h3 className="text-xl font-bold text-gray-800">Recent Orders</h3>
+          </div>
+          <div className="p-3 bg-gradient-to-r from-purple-500 to-pink-600 rounded-xl shadow-lg">
+            <FiPackage className="w-5 h-5 text-white" />
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">

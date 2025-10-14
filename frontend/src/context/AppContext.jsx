@@ -33,16 +33,23 @@ const AppContextProvider = ({ children }) => {
   const fetchUser = async () => {
     try {
       const { data } = await axios.get("/user/is-auth");
-      if (data.success) {
+      if (data.success && data.user) {
         setUser(data.user);
         localStorage.setItem("user", JSON.stringify(data.user));
       } else {
+        // Only clear user if we get a definitive "not authenticated" response
+        if (data && !data.success) {
+          setUser(null);
+          localStorage.removeItem("user");
+        }
+      }
+    } catch (error) {
+      // Only clear user on 401/403 errors, not network errors
+      if (error.response && (error.response.status === 401 || error.response.status === 403)) {
         setUser(null);
         localStorage.removeItem("user");
       }
-    } catch {
-      setUser(null);
-      localStorage.removeItem("user");
+      // For network errors, keep existing user state
     } finally {
       setAuthLoading(false);
     }
@@ -157,20 +164,25 @@ const AppContextProvider = ({ children }) => {
 
   // --- Restore user/token on refresh ---
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    const initializeApp = async () => {
+      const storedUser = localStorage.getItem("user");
 
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        localStorage.removeItem("user");
+      if (storedUser) {
+        try {
+          const parsedUser = JSON.parse(storedUser);
+          setUser(parsedUser);
+        } catch (error) {
+          localStorage.removeItem("user");
+        }
       }
-    }
 
-    // Always try to fetch user from server to verify session
-    fetchUser();
-    fetchBooks();
-    fetchAdmin();
+      // Always try to fetch user from server to verify session
+      await fetchUser();
+      await fetchBooks();
+      await fetchAdmin();
+    };
+
+    initializeApp();
   }, []);
 
   // Fetch cart when user changes
@@ -180,7 +192,7 @@ const AppContextProvider = ({ children }) => {
     } else {
       setCart([]);
     }
-  }, []);
+  }, [user]);
 
   const value = {
     navigate,

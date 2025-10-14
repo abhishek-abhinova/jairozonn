@@ -135,8 +135,13 @@ export const updateProfile = async (req, res) => {
         }
         
         // Send email notification
-        if (user.emailNotifications?.orderUpdates) {
-            await sendProfileUpdateEmail(user.email, user.name);
+        try {
+            if (user.emailNotifications?.orderUpdates) {
+                const { sendProfileUpdateEmail } = await import('../services/emailService.js');
+                await sendProfileUpdateEmail(user.email, user.name);
+            }
+        } catch (emailError) {
+            console.log('Email notification failed:', emailError);
         }
         
         return res.status(200).json({ 

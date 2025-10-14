@@ -1,5 +1,5 @@
 import express from "express";
-import { placeOrderCOD, getUserOrders, getAllOrders } from "../controllers/order.controller.js";
+import { placeOrderCOD, getUserOrders, getAllOrders, updateOrderStatus } from "../controllers/order.controller.js";
 import authUser from "../middlewares/authUser.js";
 import { authAdmin } from "../middlewares/authAdmin.js";
 
@@ -10,6 +10,7 @@ orderRouter.post("/create", authUser, placeOrderCOD); // For cart compatibility
 orderRouter.get("/get-user-orders", authUser, getUserOrders);
 orderRouter.get("/user-orders", authUser, getUserOrders); // Alternative endpoint
 orderRouter.get("/admin", authAdmin, getAllOrders);
-orderRouter.get("/all-orders", authAdmin, getAllOrders); 
+orderRouter.get("/all-orders", authAdmin, getAllOrders);
+orderRouter.put("/update-status/:orderId", authAdmin, updateOrderStatus); 
 
 export default orderRouter;

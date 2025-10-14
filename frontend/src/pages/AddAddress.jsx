@@ -2,57 +2,244 @@ import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { AppContext } from "../context/AppContext";
 import { toast } from "react-hot-toast";
+import { FiMapPin, FiUser, FiPhone, FiMail, FiHome, FiArrowLeft, FiSave } from "react-icons/fi";
+
 const AddAddress = () => {
-  const {axios,user,navigate} = useContext(AppContext);
+  const { axios, user, navigate } = useContext(AppContext);
+  const [loading, setLoading] = useState(false);
   const [address, setAddress] = useState({
-    fullName: "",
+    firstName: "",
+    lastName: "",
     phoneNumber: "",
+    email: "",
     street: "",
     city: "",
     state: "",
-    postalCode: "",
-    country: "",email: "",
+    zipcode: "",
+    country: "USA"
   });
+
   const handleChange = (e) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
-  const handleSubmit = async(e) => {
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
-      const {data} = await axios.post("/address/add", { address });
+      const { data } = await axios.post("/address/add", address);
       if (data.success) {
-        toast.success(data.message);
-        navigate("/cart");
-      }
-      else {
-        toast.error(data.message);
+        toast.success("Address added successfully!");
+        navigate("/checkout");
+      } else {
+        toast.error(data.message || "Failed to add address");
       }
     } catch (error) {
-      toast.error(error.message);
+      toast.error("Failed to add address. Please try again.");
+      console.error('Address error:', error);
+    } finally {
+      setLoading(false);
     }
-    };
-    useEffect(() => {
-      if (!user) {
-        navigate("/cart");
-      }
-  }, []);
-  return(
-    <div className="flex items-center justify-center h-screen bg-primary">
-   <form onSubmit={handleSubmit} className="bg-white text-gray-500 max-w-[500px] mx-4 md:p-6 p-4 text-left text-sm rounded shadow-[0px_0px_10px_0px] shadow-black/10">
-    <h2 class="text-2xl font-semibold mb-6 text-center text-gray-800">Add New Address</h2>
-    <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="text" value={address.fullName} name="fullName" onChange={handleChange} placeholder="Full Name" required />
-     <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="text" value={address.phoneNumber} name="phoneNumber" onChange={handleChange} placeholder="Phone Number" required />
-      <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="email" value={address.email} name="email" onChange={handleChange} placeholder="Email" required />
-      <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="text" value={address.street} name="street" onChange={handleChange} placeholder="Street Address" required />
-        <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="text" value={address.city} name="city" onChange={handleChange} placeholder="City" required />
-          <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="text" value={address.state} name="state" onChange={handleChange} placeholder="State" required />
-            <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="text" value={address.zipCode} name="zipCode" onChange={handleChange} placeholder="Zip Code" required />
-              <input className="w-full border mt-1 bg-indigo-500/5 mb-2 border-gray-400 outline-none rounded py-2.5 px-3 " type="text" value={address.country} name="country" onChange={handleChange} placeholder="Country" required />
+  };
 
-    <button type="submit" className="w-full my-3 bg-primary active:scale-95 transition py-2.5 rounded text-white">Add Address</button>
-</form>
-</div>
-  )
+  useEffect(() => {
+    if (!user) {
+      navigate("/login");
+    }
+  }, [user, navigate]);
+
+  const countries = [
+    "USA", "Canada", "United Kingdom", "Australia", "Germany", "France", "India", "Japan", "Other"
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8 mt-20">
+      <div className="max-w-4xl mx-auto px-4">
+        {/* Header */}
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8">
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => navigate(-1)}
+              className="p-2 text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors"
+            >
+              <FiArrowLeft className="w-5 h-5" />
+            </button>
+            <div className="flex items-center space-x-3">
+              <div className="p-3 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl">
+                <FiMapPin className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-800">Add Delivery Address</h1>
+                <p className="text-gray-600">Please provide your delivery details</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Form */}
+        <div className="bg-white rounded-2xl shadow-xl p-8">
+          <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Personal Information */}
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                <FiUser className="w-5 h-5 text-blue-600" />
+                <span>Personal Information</span>
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">First Name *</label>
+                  <input
+                    type="text"
+                    name="firstName"
+                    value={address.firstName}
+                    onChange={handleChange}
+                    placeholder="Enter first name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Last Name *</label>
+                  <input
+                    type="text"
+                    name="lastName"
+                    value={address.lastName}
+                    onChange={handleChange}
+                    placeholder="Enter last name"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    required
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Phone Number *</label>
+                  <div className="relative">
+                    <FiPhone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="tel"
+                      name="phoneNumber"
+                      value={address.phoneNumber}
+                      onChange={handleChange}
+                      placeholder="Enter phone number"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Email Address *</label>
+                  <div className="relative">
+                    <FiMail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                    <input
+                      type="email"
+                      name="email"
+                      value={address.email}
+                      onChange={handleChange}
+                      placeholder="Enter email address"
+                      className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Address Information */}
+            <div>
+              <h2 className="text-xl font-bold text-gray-800 mb-4 flex items-center space-x-2">
+                <FiHome className="w-5 h-5 text-green-600" />
+                <span>Address Information</span>
+              </h2>
+              <div className="space-y-6">
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Street Address *</label>
+                  <input
+                    type="text"
+                    name="street"
+                    value={address.street}
+                    onChange={handleChange}
+                    placeholder="Enter street address"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    required
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">City *</label>
+                    <input
+                      type="text"
+                      name="city"
+                      value={address.city}
+                      onChange={handleChange}
+                      placeholder="Enter city"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">State/Province *</label>
+                    <input
+                      type="text"
+                      name="state"
+                      value={address.state}
+                      onChange={handleChange}
+                      placeholder="Enter state"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-gray-700 mb-2">ZIP/Postal Code *</label>
+                    <input
+                      type="text"
+                      name="zipcode"
+                      value={address.zipcode}
+                      onChange={handleChange}
+                      placeholder="Enter ZIP code"
+                      className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                      required
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-semibold text-gray-700 mb-2">Country *</label>
+                  <select
+                    name="country"
+                    value={address.country}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300"
+                    required
+                  >
+                    {countries.map((country) => (
+                      <option key={country} value={country}>{country}</option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* Submit Button */}
+            <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+              <button
+                type="button"
+                onClick={() => navigate(-1)}
+                className="px-8 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors font-medium"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-xl hover:from-blue-600 hover:to-purple-700 transition-all duration-300 shadow-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+              >
+                <FiSave className="w-4 h-4" />
+                <span>{loading ? 'Saving Address...' : 'Save Address'}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default AddAddress;
