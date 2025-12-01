@@ -63,15 +63,15 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="navbar-blur shadow-xl border-b border-gray-200 sticky top-0 z-50">
+    <nav className="bg-gray-900 text-white sticky top-0 z-50 shadow-lg">
       {/* Top Bar */}
-      <div className="bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 text-white py-2 px-4 text-xs animate-gradient hidden md:block">
+      <div className="bg-gray-800 text-sm py-2 px-4 hidden md:block">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="flex items-center space-x-4">
             <span>📧 jairosoft@gmail.com</span>
           </div>
           <div className="flex items-center space-x-4">
-            <span className="hidden lg:inline">🚚 Free Shipping on orders $50+</span>
+            <span>🚚 Free Shipping on orders $50+</span>
             <span>💳 Secure Payment</span>
           </div>
         </div>
@@ -79,30 +79,33 @@ const Navbar = () => {
 
       {/* Main Navbar */}
       <div className="max-w-7xl mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center h-16">
           {/* Logo */}
-          <Link to="/" className="hover:scale-105 transition-transform duration-300 flex-shrink-0">
-            <Logo size="medium" variant="default" />
+          <Link to="/" className="flex-shrink-0 mr-8">
+            <div className="flex items-center space-x-2">
+              <div className="w-8 h-8 bg-yellow-400 rounded flex items-center justify-center">
+                <span className="text-gray-900 font-bold text-lg">J</span>
+              </div>
+              <span className="text-xl font-bold">Jairozon</span>
+            </div>
           </Link>
 
-          {/* Search Bar - Hidden on mobile */}
-          <div className="hidden md:flex flex-1 max-w-2xl mx-8 relative" ref={searchRef}>
-            <form onSubmit={handleSearchSubmit} className="relative">
-              <div className="relative flex">
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  placeholder="Search for books, authors, subjects..."
-                  className="w-full px-4 py-3 pr-12 border-2 border-gray-200 rounded-lg search-glow focus:outline-none text-sm transition-all duration-300"
-                />
-                <button
-                  type="submit"
-                  className="absolute right-0 top-0 h-full px-4 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-r-lg hover:from-blue-700 hover:to-purple-700 transition-all duration-300 btn-modern"
-                >
-                  <BsSearch className="w-4 h-12" />
-                </button>
-              </div>
+          {/* Search Bar */}
+          <div className="flex-1 max-w-2xl mx-4 relative" ref={searchRef}>
+            <form onSubmit={handleSearchSubmit} className="flex">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Search books, authors, subjects..."
+                className="flex-1 px-4 py-2 text-gray-900 border-2 border-yellow-400 rounded-l-md focus:outline-none focus:border-yellow-500"
+              />
+              <button
+                type="submit"
+                className="bg-yellow-400 hover:bg-yellow-500 px-4 py-2 rounded-r-md transition-colors"
+              >
+                <BsSearch className="w-5 h-5 text-gray-900" />
+              </button>
             </form>
 
             {/* Search Dropdown */}
