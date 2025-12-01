@@ -30,7 +30,7 @@ const AddAddress = () => {
       const { data } = await axios.post("/address/add", address);
       if (data.success) {
         toast.success("Address added successfully!");
-        navigate("/checkout");
+        navigate("/cart");
       } else {
         toast.error(data.message || "Failed to add address");
       }
@@ -45,6 +45,14 @@ const AddAddress = () => {
   useEffect(() => {
     if (!user) {
       navigate("/login");
+    } else {
+      // Pre-fill form with user data
+      setAddress(prev => ({
+        ...prev,
+        firstName: user.name?.split(' ')[0] || '',
+        lastName: user.name?.split(' ')[1] || '',
+        email: user.email || ''
+      }));
     }
   }, [user, navigate]);
 
