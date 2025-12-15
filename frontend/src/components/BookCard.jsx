@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AppContext } from "../context/AppContext";
-import { FiHeart, FiShoppingCart, FiStar, FiTruck, FiAward } from "react-icons/fi";
+import { FiHeart, FiStar, FiTruck } from "react-icons/fi";
 
 const BookCard = ({ book }) => {
   const { addToCart } = useContext(AppContext);
@@ -12,58 +12,48 @@ const BookCard = ({ book }) => {
   const reviews = book.reviews || Math.floor(Math.random() * 500) + 50;
 
   return (
-    <div className="group bg-white border border-gray-200 rounded-lg hover:shadow-lg transition-all duration-200 overflow-hidden h-full flex flex-col">
+    <div className="group bg-white border border-gray-200 rounded-lg hover:shadow-xl transition-all duration-300 overflow-hidden h-full flex flex-col">
       {/* Image Container */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-gray-50">
+      <div className="relative aspect-[3/4] overflow-hidden bg-gray-50 p-4">
         <Link to={`/book/${book._id}`}>
           <img 
             src={`https://jairozon.onrender.com/images/${book.image}`} 
             alt={book.title}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
             loading="lazy"
           />
         </Link>
         
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-          {discount > 0 && (
+        {/* Discount Badge */}
+        {discount > 0 && (
+          <div className="absolute top-2 left-2">
             <span className="bg-red-600 text-white text-xs font-bold px-2 py-1 rounded">
               -{discount}%
             </span>
-          )}
-          {book.bestseller && (
-            <span className="bg-orange-500 text-white text-xs font-medium px-2 py-1 rounded flex items-center gap-1">
-              <FiAward className="w-3 h-3" />
-              Best Seller
-            </span>
-          )}
-        </div>
+          </div>
+        )}
         
-        {/* Wishlist */}
-        <button
-          onClick={() => setIsWishlisted(!isWishlisted)}
-          className="absolute top-2 right-2 w-8 h-8 bg-white rounded-full shadow-md flex items-center justify-center hover:bg-gray-50 transition-colors"
-        >
-          <FiHeart className={`w-4 h-4 ${isWishlisted ? 'text-red-500 fill-current' : 'text-gray-400'}`} />
-        </button>
+        {/* Bestseller Badge */}
+        {book.bestseller && (
+          <div className="absolute top-2 right-2">
+            <span className="bg-orange-500 text-white text-xs font-bold px-2 py-1 rounded">
+              #1 Best Seller
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Content */}
-      <div className="p-3 flex-1 flex flex-col">
-        {/* Category */}
-        <div className="text-xs text-blue-600 font-medium mb-1">
-          {book.category}
-        </div>
-        
+      <div className="p-4 flex-1 flex flex-col">
         {/* Title */}
         <Link to={`/book/${book._id}`}>
-          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-blue-600 transition-colors mb-1">
+          <h3 className="text-sm font-medium text-gray-900 line-clamp-2 hover:text-orange-600 transition-colors mb-1 leading-tight">
             {book.title}
           </h3>
         </Link>
 
         {/* Author */}
-        <p className="text-xs text-gray-600 mb-2">by {book.author}</p>
+        <p className="text-sm text-gray-600 mb-2">by {book.author}</p>
         
         {/* Rating */}
         <div className="flex items-center gap-1 mb-2">
@@ -75,27 +65,27 @@ const BookCard = ({ book }) => {
               />
             ))}
           </div>
-          <span className="text-xs text-gray-600">({reviews})</span>
+          <span className="text-sm text-blue-600 hover:underline cursor-pointer">({reviews})</span>
         </div>
 
-        {/* Prime Badge */}
-        <div className="flex items-center gap-1 mb-2">
-          <FiTruck className="w-3 h-3 text-blue-600" />
-          <span className="text-xs text-blue-600 font-medium">Fast Delivery</span>
+        {/* Prime Delivery */}
+        <div className="flex items-center gap-1 mb-3">
+          <FiTruck className="w-4 h-4 text-blue-600" />
+          <span className="text-sm text-blue-600 font-medium">FREE delivery</span>
         </div>
 
         {/* Price */}
-        <div className="flex items-center gap-2 mb-3 mt-auto">
-          <span className="text-lg font-bold text-gray-900">${book.offerPrice}</span>
+        <div className="flex items-baseline gap-2 mb-4 mt-auto">
+          <span className="text-xl font-bold text-gray-900">${book.offerPrice}</span>
           {book.price > book.offerPrice && (
             <span className="text-sm text-gray-500 line-through">${book.price}</span>
           )}
         </div>
 
-        {/* Add to Cart */}
+        {/* Add to Cart Button */}
         <button 
           onClick={() => addToCart(book)}
-          className="w-full bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-medium py-2 px-4 rounded-md transition-colors text-sm"
+          className="w-full bg-orange-400 hover:bg-orange-500 text-gray-900 font-bold py-2 px-4 rounded-full transition-colors text-sm shadow-sm hover:shadow-md"
         >
           Add to Cart
         </button>
